@@ -1,7 +1,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
 
-// Your Firebase configuration
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_AUTH_DOMAIN",
@@ -436,16 +436,18 @@ async function playSound(date, timestamp, popupElement) {
     stopCurrentSound();
 
     try {
-        // Create a reference to the file and get URL
-        const fileRef = ref(storage, soundPath);
-        const url = await getDownloadURL(fileRef);
+        // Create a reference using the imported ref function
+        const audioRef = ref(storage, soundPath);
+        
+        // Get the download URL
+        const url = await getDownloadURL(audioRef);
         
         isPlayingSound = true;
         currentSound = new Audio();
         currentSound.preload = 'auto';
         currentSound.controlsList = 'nodownload';
 
-        // Set up event listeners before setting src
+        // Set up event listeners
         currentSound.addEventListener('loadedmetadata', () => {
             console.log('Audio metadata loaded, duration:', currentSound.duration);
         });
@@ -455,7 +457,7 @@ async function playSound(date, timestamp, popupElement) {
         });
         
         // Set source and play
-        currentSound.src = url;  // Use the Firebase URL here, not soundFile
+        currentSound.src = url;
         await currentSound.play();
         
         // Highlight active timestamp
@@ -491,6 +493,8 @@ async function playSound(date, timestamp, popupElement) {
         });
     } catch (error) {
         console.error('Error playing sound:', error);
+        console.log('Failed path:', soundPath); // Add this for debugging
+        console.log('Storage bucket:', firebaseConfig.storageBucket); // Add this for debugging
     }
 }
 
