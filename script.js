@@ -436,68 +436,62 @@ async function playSound(date, timestamp, popupElement) {
     stopCurrentSound();
 
     try {
-        // Get the download URL from Firebase Storage
-        const storageRef = window.firebaseStorage.ref(soundPath);
-        const url = await storageRef.getDownloadURL();
+        // Create a reference to the file and get URL
+        const fileRef = ref(storage, soundPath);
+        const url = await getDownloadURL(fileRef);
         
         isPlayingSound = true;
-        currentSound = new Audio(url);
-        currentSound.play();
+        currentSound = new Audio();
+        currentSound.preload = 'auto';
+        currentSound.controlsList = 'nodownload';
 
-    currentSound.preload = 'auto';
-    currentSound.controlsList = 'nodownload';
-
-    // Set up event listeners before setting src
-    currentSound.addEventListener('loadedmetadata', () => {
-        console.log('Audio metadata loaded, duration:', currentSound.duration);
-    });
-    
-    currentSound.addEventListener('canplay', () => {
-        console.log('Audio can play, duration:', currentSound.duration);
-    });
-    
-    currentSound.src = soundFile;
-    currentSound.play().catch(error => {
-        console.error('Error playing sound:', error);
-    });
-
-    currentSound.play();
-    
-    // Highlight active timestamp
-    const activeTimestamp = popupElement.querySelector(`[data-timestamp="${timestamp}"]`);
-    if (activeTimestamp) {
-        // Remove active class and reset background from all timestamps in all popups
-        document.querySelectorAll('.timestamp').forEach(ts => {
-            ts.classList.remove('active');
-            ts.style.backgroundColor = '#f0f0f0';
+        // Set up event listeners before setting src
+        currentSound.addEventListener('loadedmetadata', () => {
+            console.log('Audio metadata loaded, duration:', currentSound.duration);
         });
-        activeTimestamp.classList.add('active');
-        activeTimestamp.style.backgroundColor = '#ddd';
-    }
-    
-    // Update progress bar
-    const progressBar = popupElement.querySelector('[id^="progressBar-"]');
-    
-    function updateProgress() {
-        if (currentSound && currentSound.duration) {
-            const progress = (currentSound.currentTime / currentSound.duration) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-    }
-    
-    currentSound.addEventListener('timeupdate', updateProgress);
-    
-    currentSound.addEventListener('ended', () => {
-        isPlayingSound = false;
-        progressBar.style.width = '0%';
+        
+        currentSound.addEventListener('canplay', () => {
+            console.log('Audio can play, duration:', currentSound.duration);
+        });
+        
+        // Set source and play
+        currentSound.src = url;  // Use the Firebase URL here, not soundFile
+        await currentSound.play();
+        
+        // Highlight active timestamp
+        const activeTimestamp = popupElement.querySelector(`[data-timestamp="${timestamp}"]`);
         if (activeTimestamp) {
-            activeTimestamp.classList.remove('active');
-            activeTimestamp.style.backgroundColor = '#f0f0f0';
+            document.querySelectorAll('.timestamp').forEach(ts => {
+                ts.classList.remove('active');
+                ts.style.backgroundColor = '#f0f0f0';
+            });
+            activeTimestamp.classList.add('active');
+            activeTimestamp.style.backgroundColor = '#ddd';
         }
-    });
-} catch (error) {
-    console.error('Error playing sound:', error);
-}
+        
+        // Update progress bar
+        const progressBar = popupElement.querySelector('[id^="progressBar-"]');
+        
+        function updateProgress() {
+            if (currentSound && currentSound.duration) {
+                const progress = (currentSound.currentTime / currentSound.duration) * 100;
+                progressBar.style.width = `${progress}%`;
+            }
+        }
+        
+        currentSound.addEventListener('timeupdate', updateProgress);
+        
+        currentSound.addEventListener('ended', () => {
+            isPlayingSound = false;
+            progressBar.style.width = '0%';
+            if (activeTimestamp) {
+                activeTimestamp.classList.remove('active');
+                activeTimestamp.style.backgroundColor = '#f0f0f0';
+            }
+        });
+    } catch (error) {
+        console.error('Error playing sound:', error);
+    }
 }
 
 function stopCurrentSound() {
