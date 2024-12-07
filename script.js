@@ -1,4 +1,4 @@
-import firebaseConfig from './config.js';
+
 
 console.log('Loading script.js version:', Date.now());
 
