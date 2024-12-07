@@ -12,7 +12,7 @@ const firebaseConfig = {
     measurementId: "YOUR_MEASUREMENT_ID"
 };
 
-console.log('Storage bucket:', firebaseConfig.apiKey);
+console.log('Storage bucket:', firebaseConfig.storageBucket);
 
 
 
