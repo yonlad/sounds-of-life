@@ -429,14 +429,22 @@ function seekAudio(e, sound, progressBarElement, container) {
 }
 
 
+console.log('Firebase storage initialized:', storage);
+console.log('Firebase ref function:', ref);
+
 async function playSound(date, timestamp, popupElement) {
+    console.log('Starting playSound function');
+    console.log('Storage:', storage);
+    console.log('ref function:', ref);
+    
     const formattedTime = timestamp.replace(":", "-");
     const soundPath = `sounds/${date}-${formattedTime}.m4a`;
+    console.log('Sound path:', soundPath);
     
     stopCurrentSound();
 
     try {
-        // Create a reference using the imported ref function
+        console.log('Creating storage reference...');
         const audioRef = ref(storage, soundPath);
         
         // Get the download URL
