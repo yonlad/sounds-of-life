@@ -1,0 +1,12 @@
+calendar-of-hope/
+new-sounds/
+sounds/
+yellow-texts/
+node_modules/
+__pycache__/
+*.m4a
+*.mp3
+*.wav
+.env
+.env.local
+.DS_Store
