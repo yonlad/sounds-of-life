@@ -890,7 +890,7 @@ function enableScreenClick() {
 
     overlay.addEventListener('click', () => {
         // Open React app and close current window
-        window.location.replace('http://localhost:3000');
+        window.location.replace('https://yonlad.github.io/calendar-of-hope'); // change url based on domain hosting
     });
 
     document.body.appendChild(overlay);
