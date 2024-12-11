@@ -367,3 +367,52 @@ body {
 }
 
 
+
+
+#mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: default;
+    cursor: default;
+}
+
+.mobile-content {
+    text-align: center;
+    padding: 20px;
+    color: white;
+    font-family: Cambria, serif;
+   
+}
+
+.mobile-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    cursor: text !important;
+}
+
+.mobile-content p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    max-width: 80%;
+    margin: 0 auto;
+    cursor: text !important;
+}
+
+/* Hide all other content when mobile overlay is shown */
+body.is-mobile .calendar,
+body.is-mobile .calendar-header,
+body.is-mobile .day-headers,
+body.is-mobile .popup,
+body.is-mobile .yellow-popup,
+body.is-mobile .header-popup,
+body.is-mobile .enough-button {
+    display: none !important;
+}

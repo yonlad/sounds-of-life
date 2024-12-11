@@ -1,6 +1,55 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
 import { getStorage, ref, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js';
 
+// Mobile detection function
+function isMobileDevice() {
+    return (window.innerWidth <= 768) || 
+           (typeof window.orientation !== "undefined") || 
+           (navigator.userAgent.indexOf('IEMobile') !== -1);
+}
+
+// Function to handle mobile display
+function handleMobileDisplay() {
+    const isMobile = isMobileDevice();
+    const mobileOverlay = document.getElementById('mobile-overlay');
+    const body = document.body;
+    const calendar = document.querySelector('.calendar');
+    
+    if (isMobile) {
+        body.classList.add('is-mobile');
+        mobileOverlay.style.display = 'flex';
+        // Prevent any interaction with the main content
+        if (calendar) {
+            calendar.style.pointerEvents = 'none';
+        }
+        // Stop any ongoing sounds or processes
+        if (typeof stopCurrentSound === 'function') {
+            stopCurrentSound();
+        }
+    } else {
+        body.classList.remove('is-mobile');
+        mobileOverlay.style.display = 'none';
+        if (calendar) {
+            calendar.style.pointerEvents = 'auto';
+        }
+    }
+}
+
+// Initial check
+handleMobileDisplay();
+
+// Check on resize
+window.addEventListener('resize', handleMobileDisplay);
+
+// Prevent orientation change from showing the desktop version
+window.addEventListener('orientationchange', () => {
+    if (isMobileDevice()) {
+        handleMobileDisplay();
+    }
+});
+
+
+
 const firebaseConfig = {
     apiKey: "YOUR_API_KEY",
     authDomain: "YOUR_AUTH_DOMAIN",
@@ -908,3 +957,6 @@ function disableAllInteractions() {
     });
     */
 }
+
+
+
