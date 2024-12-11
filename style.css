@@ -380,8 +380,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: default;
-    cursor: default;
+    cursor: default !important;
+
 }
 
 .mobile-content {
@@ -389,7 +389,8 @@ body {
     padding: 20px;
     color: white;
     font-family: Cambria, serif;
-   
+    cursor: default !important;
+    width: 100%;
 }
 
 .mobile-content h1 {
@@ -403,6 +404,43 @@ body {
     line-height: 1.5;
     max-width: 80%;
     margin: 0 auto;
+    cursor: text !important;
+}
+
+.mobile-content .vertical-right{
+    transform: rotate(90deg);
+    width: 100%;
+    cursor: default !important;
+    position: absolute;
+    left: 40%;
+    top: 50%;
+    z-index: 0;
+    
+ 
+}
+
+.mobile-content .vertical-left{
+    transform: rotate(90deg);
+    width: 100%;
+    cursor: default !important;
+    position: absolute;
+    left: -40%;
+    top: 50%;
+    z-index: 0;
+   
+}
+
+.mobile-content hr{
+    width: 100%;
+    contain: cover;
+    z-index: 1;
+}
+
+.mobile-content br{
+    cursor: default !important;
+}
+
+.mobile-content abbr{
     cursor: text !important;
 }
 
