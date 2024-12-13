@@ -697,40 +697,7 @@ function simulateProgressBarClick(ratio) {
     progressBarContainer.dispatchEvent(clickEvent);
 }
 
-/*
-// Automation handling
-function handleInactivity() {
-    if (isPlayingSound || isAutomationRunning) return;
-    isAutomationRunning = true;
 
-    const redDate = document.querySelector('.red[data-date="2024-09-12"]');
-    if (redDate) {
-        const automationSequence = async () => {
-            triggerClick(redDate);
-            await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            const latestPopup = activePopups[activePopups.length - 1];
-            if (latestPopup) {
-                const timestamp = latestPopup.querySelector('[data-timestamp="00:00"]');
-                if (timestamp) {
-                    triggerClick(timestamp);
-                }
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                simulateProgressBarClick(0.66); // Move to roughly 2/3 through the audio
-            }
-            isAutomationRunning = false;
-        };
-        automationSequence();
-    }
-}
-
-
-
-function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(handleInactivity, inactivityTimeLimit);
-}
-*/
 // Event listeners
 titleHeader.addEventListener('click', showHeaderPopup);
 
@@ -769,21 +736,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //resetInactivityTimer();
 });
 
-/*
-// Add event listeners for inactivity reset
-['load', 'mousemove', 'keypress', 'click'].forEach(event => {
-    window.addEventListener(event, resetInactivityTimer);
-});
 
-// Visibility handling
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        clearTimeout(inactivityTimer);
-    } else {
-        resetInactivityTimer();
-    }
-});
-*/
 
 // Add this to your existing JavaScript
 document.getElementById('enoughButton').addEventListener('click', function() {
@@ -904,26 +857,7 @@ document.getElementById('enoughButton').addEventListener('click', function() {
     
     // Disable all event listeners
     titleHeader.removeEventListener('click', showHeaderPopup);
-    /*
-    document.removeEventListener('visibilitychange', resetInactivityTimer);
-    ['load', 'mousemove', 'keypress', 'click'].forEach(event => {
-        window.removeEventListener(event, resetInactivityTimer);
-    });
-    */
-
-    // Hide the button
-    //this.classList.add('fade-out');
-    //setTimeout(() => this.style.display = 'none', 500);
-
-    // Instead of hiding the button, make it look "used"
-    //this.classList.add('used');
     
-    // Prevent any existing click handlers on dates from working
-    //document.querySelectorAll('.red, .date, .yellow .calendar-header h1').forEach(el => {
-      //  el.style.pointerEvents = 'none';
-   // });
-
-    // Prevent new popups from being opened
     isAutomationRunning = true;
     
     // Clear any ongoing timers
@@ -940,12 +874,7 @@ document.getElementById('enoughButton').addEventListener('click', function() {
 
         // Remove all event listeners
         titleHeader.removeEventListener('click', showHeaderPopup);
-        /*
-        document.removeEventListener('visibilitychange', resetInactivityTimer);
-        ['load', 'mousemove', 'keypress', 'click'].forEach(event => {
-            window.removeEventListener(event, resetInactivityTimer);
-        });
-        */
+        
 
         // Set flag to prevent new interactions
         isAutomationRunning = true;
@@ -1046,12 +975,7 @@ function enableScreenClick() {
 function disableAllInteractions() {
     isAutomationRunning = true;
     //clearTimeout(inactivityTimer);
-    /*
-    document.removeEventListener('visibilitychange', resetInactivityTimer);
-    ['load', 'mousemove', 'keypress', 'click'].forEach(event => {
-        window.removeEventListener(event, resetInactivityTimer);
-    });
-    */
+    
 }
 
 
