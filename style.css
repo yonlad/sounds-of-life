@@ -27,7 +27,7 @@ body {
     transform-origin: top center;
     height: 111.111vh; /* Compensate for the scale (100/0.85) */
     width: 100%;
-    overflow-x: hidden;
+    overflow: hidden;
     cursor: none;
 }
 
